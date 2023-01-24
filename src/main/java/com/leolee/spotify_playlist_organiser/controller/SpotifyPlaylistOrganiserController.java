@@ -5,9 +5,7 @@ import com.leolee.spotify_playlist_organiser.security.AuthorizationService;
 import com.leolee.spotify_playlist_organiser.service.SpotifyApiService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -39,6 +37,21 @@ public class SpotifyPlaylistOrganiserController {
     @GetMapping("/playlistItems")
     public List<SongDTO> playlistItems(@RequestParam String access_token, @RequestParam String listId) throws IOException, InterruptedException {
         return spotifyApiService.getPlaylistItems(access_token, listId);
+    }
+
+    @PostMapping("/createPlaylist")
+    public String createPlaylist(@RequestParam String access_token, @RequestParam String name) throws IOException, InterruptedException {
+        return spotifyApiService.createPlaylist(access_token, name, "", false);
+    }
+
+    @PostMapping("/addItem")
+    public void addItemsToPlaylist(@RequestParam String access_token, @RequestParam String listId, @RequestBody String uris) throws IOException, InterruptedException {
+        spotifyApiService.addItemsToPlaylist(access_token, listId, uris);
+    }
+
+    @PostMapping("/filter")
+    public void filterCantoSongs(@RequestParam String access_token, @RequestParam String listId) throws IOException, InterruptedException {
+        spotifyApiService.filterCantoSongs(access_token, listId);
     }
 
     @GetMapping("/error")

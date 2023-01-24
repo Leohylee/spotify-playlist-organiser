@@ -34,9 +34,18 @@ public class SpotifyAccessToken {
         this.refresh_token = refresh_token;
     }
 
+    public String getScope() {
+        return scope;
+    }
+
+    public void setScope(String scope) {
+        this.scope = scope;
+    }
+
     private String access_token;
     private String token_type;
     private String expires_in;
     private String refresh_token;
+    private String scope;
 
 }

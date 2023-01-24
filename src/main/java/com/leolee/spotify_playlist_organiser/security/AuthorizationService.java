@@ -3,9 +3,6 @@ package com.leolee.spotify_playlist_organiser.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.leolee.spotify_playlist_organiser.model.SpotifyAccessToken;
-import com.leolee.spotify_playlist_organiser.model.dto.ArtistDTO;
-import com.leolee.spotify_playlist_organiser.model.dto.SongDTO;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +13,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
-import org.json.JSONObject;
-import org.springframework.util.StringUtils;
 
 @Service
 public class AuthorizationService {
@@ -34,7 +32,11 @@ public class AuthorizationService {
     private SpotifyAccessToken token = new SpotifyAccessToken();
 
     public String connect() {
-        return authorization_url + "response_type=code" + "&client_id=" + client_id + "&redirect_uri=" + redirect_uri + "&state=" + UUID.randomUUID().toString();
+        return authorization_url + "response_type=code"
+                + "&client_id=" + client_id
+                + "&redirect_uri=" + redirect_uri
+                + "&state=" + UUID.randomUUID()
+                + "&scope=playlist-modify-private,playlist-modify-public";
     }
 
     public String callback(String code, String state) throws IOException, InterruptedException {
